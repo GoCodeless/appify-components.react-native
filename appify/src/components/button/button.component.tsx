@@ -1,18 +1,20 @@
 import React, { FunctionComponent, useState } from "react";
 import { View, Text } from "react-native";
 import { Pressable } from "../../utils/pressable";
+import { defaultStyles } from "./button.styles";
 
 export interface AppifyButtonStateStyles {
-    default: object;
-    pressed: object;
-    canceled: object;
-    disabled: object;
+    default: object | null;
+    pressed: object | null;
+    canceled: object | null;
+    disabled: object | null;
 };
 
 export interface AppifyButtonProperties {
     onPress?: () => void;
     disabled?: boolean;
     label: string;
+
     textStyle: AppifyButtonStateStyles;
     buttonStyle: AppifyButtonStateStyles;
 };
@@ -26,17 +28,17 @@ export const ButtonComponent: FunctionComponent<AppifyButtonProperties> = (props
     var [state,setState] = useState(props.disabled ? STATE_DISABLED : STATE_DEFAULT);
 
     var buttonStyle = (
-        state === STATE_PRESSED ? props.buttonStyle.pressed
-        : state === STATE_CANCELED ? props.buttonStyle.canceled
-        : state === STATE_DISABLED ? props.buttonStyle.disabled
-        : props.buttonStyle.default
+        state === STATE_PRESSED ? {...defaultStyles.buttonPressed, ...props.buttonStyle.pressed}
+        : state === STATE_CANCELED ? {...defaultStyles.buttonCanceled, ...props.buttonStyle.canceled}
+        : state === STATE_DISABLED ? {...defaultStyles.buttonDisabled, ...props.buttonStyle.disabled}
+        : {...defaultStyles.buttonDefault, ...props.buttonStyle.default}
     );
 
     var textStyle = (
-        state === STATE_PRESSED ? props.textStyle.pressed
-        : state === STATE_CANCELED ? props.textStyle.canceled
-        : state === STATE_DISABLED ? props.textStyle.disabled
-        : props.textStyle.default
+        state === STATE_PRESSED ? {...defaultStyles.textPressed, ...props.textStyle.pressed}
+        : state === STATE_CANCELED ? {...defaultStyles.textCanceled, ...props.textStyle.canceled}
+        : state === STATE_DISABLED ? {...defaultStyles.textDisabled, ...props.textStyle.disabled}
+        : {...defaultStyles.textDefault, ...props.textStyle.default}
     );
 
     return props.disabled ? (
