@@ -3,15 +3,15 @@ import { View, Text, TextInput } from "react-native";
 import { defaultStyles } from "./textinput.styles";
 
 export interface AppifyTextInputStateStyles {
-    default: ({placeholderColor?: string} & object) | null;
-    selected: ({placeholderColor?: string} & object) | null;
-    disabled: ({placeholderColor?: string} & object) | null;
+    default?: ({placeholderColor?: string} & object) | null;
+    selected?: ({placeholderColor?: string} & object) | null;
+    disabled?: ({placeholderColor?: string} & object) | null;
 };
 
 export interface AppifyTextInputLabelStateStyles {
-    default: object | null;
-    selected: object | null;
-    disabled: object | null;
+    default?: object | null;
+    selected?: object | null;
+    disabled?: object | null;
 }
 
 export interface AppifyTextInputProperties {
@@ -21,28 +21,33 @@ export interface AppifyTextInputProperties {
     placeholder?: string;
     label: string;
 
-    inputStyle: AppifyTextInputStateStyles;
-    labelStyle: AppifyTextInputLabelStateStyles;
+    inputStyle?: AppifyTextInputStateStyles | null;
+    labelStyle?: AppifyTextInputLabelStateStyles | null;
 };
 
 const STATE_DEFAULT = 0,
       STATE_SELECTED = 1,
       STATE_DISABLED = 2;
 
+const emptyStyles = {default:null, selected:null, disabled:null};
+
 export const TextInputComponent: FunctionComponent<AppifyTextInputProperties> = (props) => {
     var [state,setState] = useState(STATE_DEFAULT),
         [value,setValue] = useState(props.value || "");
 
+    var propsInputStyle:AppifyTextInputStateStyles = props.inputStyle || emptyStyles;
+    var propsLabelStyle:AppifyTextInputLabelStateStyles = props.labelStyle || emptyStyles;
+
     var inputStyle = (
-        state === STATE_SELECTED ? {...defaultStyles.inputSelected, ...props.inputStyle.selected}
-        : state === STATE_DISABLED ? {...defaultStyles.inputDisabled, ...props.inputStyle.disabled}
-        : {...defaultStyles.inputDefault, ...props.inputStyle.default}
+        state === STATE_SELECTED ? {...defaultStyles.inputSelected, ...propsInputStyle.selected}
+        : state === STATE_DISABLED ? {...defaultStyles.inputDisabled, ...propsInputStyle.disabled}
+        : {...defaultStyles.inputDefault, ...propsInputStyle.default}
     );
 
     var labelStyle = (
-        state === STATE_SELECTED ? {...defaultStyles.labelSelected, ...props.labelStyle.selected}
-        : state === STATE_DISABLED ? {...defaultStyles.labelDisabled, ...props.labelStyle.disabled}
-        : {...defaultStyles.labelDefault, ...props.labelStyle.default}
+        state === STATE_SELECTED ? {...defaultStyles.labelSelected, ...propsLabelStyle.selected}
+        : state === STATE_DISABLED ? {...defaultStyles.labelDisabled, ...propsLabelStyle.disabled}
+        : {...defaultStyles.labelDefault, ...propsLabelStyle.default}
     );
 
     inputStyle = Object.assign({},inputStyle);

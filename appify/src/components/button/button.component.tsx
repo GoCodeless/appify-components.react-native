@@ -4,10 +4,10 @@ import { Pressable } from "../../utils/pressable";
 import { defaultStyles } from "./button.styles";
 
 export interface AppifyButtonStateStyles {
-    default: object | null;
-    pressed: object | null;
-    canceled: object | null;
-    disabled: object | null;
+    default?: object | null;
+    pressed?: object | null;
+    canceled?: object | null;
+    disabled?: object | null;
 };
 
 export interface AppifyButtonProperties {
@@ -15,8 +15,8 @@ export interface AppifyButtonProperties {
     disabled?: boolean;
     label: string;
 
-    textStyle: AppifyButtonStateStyles;
-    buttonStyle: AppifyButtonStateStyles;
+    textStyle?: AppifyButtonStateStyles | null;
+    buttonStyle?: AppifyButtonStateStyles | null;
 };
 
 const STATE_DEFAULT = 0,
@@ -24,21 +24,26 @@ const STATE_DEFAULT = 0,
       STATE_CANCELED = 2,
       STATE_DISABLED = 3;
 
+const emptyStyles = {default:null, pressed:null, canceled:null, disabled:null};
+
 export const ButtonComponent: FunctionComponent<AppifyButtonProperties> = (props) => {
     var [state,setState] = useState(props.disabled ? STATE_DISABLED : STATE_DEFAULT);
 
+    var propsButtonStyle:AppifyButtonStateStyles = props.buttonStyle || emptyStyles;
+    var propsTextStyle:AppifyButtonStateStyles = props.textStyle || emptyStyles;
+
     var buttonStyle = (
-        state === STATE_PRESSED ? {...defaultStyles.buttonPressed, ...props.buttonStyle.pressed}
-        : state === STATE_CANCELED ? {...defaultStyles.buttonCanceled, ...props.buttonStyle.canceled}
-        : state === STATE_DISABLED ? {...defaultStyles.buttonDisabled, ...props.buttonStyle.disabled}
-        : {...defaultStyles.buttonDefault, ...props.buttonStyle.default}
+        state === STATE_PRESSED ? {...defaultStyles.buttonPressed, ...propsButtonStyle.pressed}
+        : state === STATE_CANCELED ? {...defaultStyles.buttonCanceled, ...propsButtonStyle.canceled}
+        : state === STATE_DISABLED ? {...defaultStyles.buttonDisabled, ...propsButtonStyle.disabled}
+        : {...defaultStyles.buttonDefault, ...propsButtonStyle.default}
     );
 
     var textStyle = (
-        state === STATE_PRESSED ? {...defaultStyles.textPressed, ...props.textStyle.pressed}
-        : state === STATE_CANCELED ? {...defaultStyles.textCanceled, ...props.textStyle.canceled}
-        : state === STATE_DISABLED ? {...defaultStyles.textDisabled, ...props.textStyle.disabled}
-        : {...defaultStyles.textDefault, ...props.textStyle.default}
+        state === STATE_PRESSED ? {...defaultStyles.textPressed, ...propsTextStyle.pressed}
+        : state === STATE_CANCELED ? {...defaultStyles.textCanceled, ...propsTextStyle.canceled}
+        : state === STATE_DISABLED ? {...defaultStyles.textDisabled, ...propsTextStyle.disabled}
+        : {...defaultStyles.textDefault, ...propsTextStyle.default}
     );
 
     return props.disabled ? (

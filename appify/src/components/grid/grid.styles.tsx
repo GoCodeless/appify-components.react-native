@@ -26,9 +26,11 @@ export const defaultStyles = StyleSheet.create({
 
     // Others
     titleContainer: {
-
+        width: "100%",
     },
     cellContainer: {
-
+        width: "100%",
+        flexWrap: "wrap",
+        justifyContent: "space-evenly",
     },
 });
