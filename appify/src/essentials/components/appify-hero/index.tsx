@@ -1,14 +1,14 @@
 import React, { FunctionComponent, useState } from "react";
 import { View, Text, ImageBackground } from "react-native";
-import { ButtonComponent, AppifyButtonStateStyles } from "../button/button.component";
-import { defaultStyles } from "./call-to-action.styles";
+import { AppifyButton, AppifyButtonStateStyles } from "../../elements/appify-button";
+import { defaultStyles } from "./styles";
 
-export interface AppifyCTAStateStyles {
+export interface AppifyHeroStateStyles {
     default?: object | null;
     disabled?: object | null;
 };
 
-export interface AppifyCTAProperties {
+export interface AppifyHeroProperties {
     onPress?: () => void;
     disabled?: boolean;
     titleLabel: string;
@@ -18,11 +18,11 @@ export interface AppifyCTAProperties {
 
     buttonTextStyles?: AppifyButtonStateStyles | null;
     buttonButtonStyles?: AppifyButtonStateStyles | null;
-    containerStyles?: AppifyCTAStateStyles | null;
-    innerContainerStyles?: AppifyCTAStateStyles | null;
-    imageStyles?: AppifyCTAStateStyles | null;
-    titleStyles?: AppifyCTAStateStyles | null;
-    subtitleStyles?: AppifyCTAStateStyles | null;
+    containerStyles?: AppifyHeroStateStyles | null;
+    innerContainerStyles?: AppifyHeroStateStyles | null;
+    imageStyles?: AppifyHeroStateStyles | null;
+    titleStyles?: AppifyHeroStateStyles | null;
+    subtitleStyles?: AppifyHeroStateStyles | null;
 };
 
 const STATE_DEFAULT = 0,
@@ -30,15 +30,15 @@ const STATE_DEFAULT = 0,
 
 const emptyStyles = {default:null, disabled:null};
 
-export const CTAComponent: FunctionComponent<AppifyCTAProperties> = (props) => {
+export const AppifyHero: FunctionComponent<AppifyHeroProperties> = (props) => {
     var state = props.disabled ? STATE_DISABLED : STATE_DEFAULT;
-    
+
     var propsContainerStyles = props.containerStyles || emptyStyles;
     var propsInnerContainerStyles = props.innerContainerStyles || emptyStyles;
     var propsImageStyles = props.imageStyles || emptyStyles;
     var propsTitleStyles = props.titleStyles || emptyStyles;
     var propsSubtitleStyles = props.subtitleStyles || emptyStyles;
-
+    
     var containerStyles = (
         state === STATE_DISABLED ? {...defaultStyles.containerDisabled, ...propsContainerStyles.disabled}
         : {...defaultStyles.containerDefault, ...propsContainerStyles.default}
@@ -78,10 +78,10 @@ export const CTAComponent: FunctionComponent<AppifyCTAProperties> = (props) => {
                         {props.subtitleLabel}
                     </Text>
                     : null}
-                <ButtonComponent
+                <AppifyButton
                     onPress={props.onPress}
-                    buttonStyle={props.buttonButtonStyles}
-                    textStyle={props.buttonTextStyles}
+                    buttonStyles={props.buttonButtonStyles}
+                    textStyles={props.buttonTextStyles}
                     label={props.buttonLabel}
                     disabled={props.disabled}
                 />

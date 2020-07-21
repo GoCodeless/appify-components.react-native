@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from "react";
 import { View, Text, TextInput } from "react-native";
-import { defaultStyles } from "./textinput.styles";
+import { defaultStyles } from "./styles";
 
 export interface AppifyTextInputStateStyles {
     default?: ({placeholderColor?: string} & object) | null;
@@ -21,8 +21,8 @@ export interface AppifyTextInputProperties {
     placeholder?: string;
     label: string;
 
-    inputStyle?: AppifyTextInputStateStyles | null;
-    labelStyle?: AppifyTextInputLabelStateStyles | null;
+    inputStyles?: AppifyTextInputStateStyles | null;
+    labelStyles?: AppifyTextInputLabelStateStyles | null;
 };
 
 const STATE_DEFAULT = 0,
@@ -31,36 +31,36 @@ const STATE_DEFAULT = 0,
 
 const emptyStyles = {default:null, selected:null, disabled:null};
 
-export const TextInputComponent: FunctionComponent<AppifyTextInputProperties> = (props) => {
+export const AppifyTextInput: FunctionComponent<AppifyTextInputProperties> = (props) => {
     var [state,setState] = useState(STATE_DEFAULT),
         [value,setValue] = useState(props.value || "");
 
-    var propsInputStyle:AppifyTextInputStateStyles = props.inputStyle || emptyStyles;
-    var propsLabelStyle:AppifyTextInputLabelStateStyles = props.labelStyle || emptyStyles;
+    var propsInputStyles:AppifyTextInputStateStyles = props.inputStyles || emptyStyles;
+    var propsLabelStyles:AppifyTextInputLabelStateStyles = props.labelStyles || emptyStyles;
 
-    var inputStyle = (
-        state === STATE_SELECTED ? {...defaultStyles.inputSelected, ...propsInputStyle.selected}
-        : state === STATE_DISABLED ? {...defaultStyles.inputDisabled, ...propsInputStyle.disabled}
-        : {...defaultStyles.inputDefault, ...propsInputStyle.default}
+    var inputStyles = (
+        state === STATE_SELECTED ? {...defaultStyles.inputSelected, ...propsInputStyles.default, ...propsInputStyles.selected}
+        : state === STATE_DISABLED ? {...defaultStyles.inputDisabled, ...propsInputStyles.default, ...propsInputStyles.disabled}
+        : {...defaultStyles.inputDefault, ...propsInputStyles.default}
     );
 
-    var labelStyle = (
-        state === STATE_SELECTED ? {...defaultStyles.labelSelected, ...propsLabelStyle.selected}
-        : state === STATE_DISABLED ? {...defaultStyles.labelDisabled, ...propsLabelStyle.disabled}
-        : {...defaultStyles.labelDefault, ...propsLabelStyle.default}
+    var labelStyles = (
+        state === STATE_SELECTED ? {...defaultStyles.labelSelected, ...propsLabelStyles.default, ...propsLabelStyles.selected}
+        : state === STATE_DISABLED ? {...defaultStyles.labelDisabled, ...propsLabelStyles.default, ...propsLabelStyles.disabled}
+        : {...defaultStyles.labelDefault, ...propsLabelStyles.default}
     );
 
-    inputStyle = Object.assign({},inputStyle);
-    var {placeholderColor} = inputStyle;
-    delete inputStyle.placeholderColor;
+    inputStyles = Object.assign({},inputStyles);
+    var {placeholderColor} = inputStyles;
+    delete inputStyles.placeholderColor;
 
     return (
         <View>
-            <Text style={labelStyle}>{props.label}</Text>
+            <Text style={labelStyles}>{props.label}</Text>
             {props.disabled ? (
                 <TextInput
                     editable={false}
-                    style={inputStyle as object}
+                    style={inputStyles as object}
                     value={value}
                 />
             ) : (
@@ -69,7 +69,7 @@ export const TextInputComponent: FunctionComponent<AppifyTextInputProperties> = 
                         setValue(value);
                         props.onChange && props.onChange(value);
                     }}
-                    style={inputStyle as object}
+                    style={inputStyles as object}
                     onFocus={() => setState(STATE_SELECTED)}
                     onBlur={() => setState(STATE_DEFAULT)}
                     placeholder={props.placeholder}

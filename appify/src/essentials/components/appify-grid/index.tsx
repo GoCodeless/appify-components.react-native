@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from "react";
 import { View, Text, Image } from "react-native";
-import { defaultStyles } from "./grid.styles";
+import { defaultStyles } from "./styles";
 
 export interface AppifyGridStateStyles {
     default?: object | null;
@@ -30,7 +30,7 @@ const STATE_DEFAULT = 0;
 
 const emptyStyles = {default:null};
 
-export const GridComponent: FunctionComponent<AppifyGridProperties> = (props) => {
+export const AppifyGrid: FunctionComponent<AppifyGridProperties> = (props) => {
     var state = STATE_DEFAULT;
 
     var propsContainerStyles = props.containerStyles || emptyStyles;
