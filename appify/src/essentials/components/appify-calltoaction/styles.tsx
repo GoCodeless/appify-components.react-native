@@ -10,7 +10,6 @@ export const defaultStyles = StyleSheet.create({
         paddingHorizontal: 40,
         paddingTop: 124,
         paddingBottom: 174,
-        backgroundColor: "#404040a0",
     },
     imageDefault: {
         
@@ -18,31 +17,17 @@ export const defaultStyles = StyleSheet.create({
     titleDefault: {
         ...commonStyles.header2,
         color: "#FFFFFF",
+        textAlign: "center",
     },
     subtitleDefault: {
         ...commonStyles.subtitle,
+        textAlign: "center",
         color: "#FFFFFF",
+        marginTop: 8,
     },
-
-    // DISABLED
-    containerDisabled: {
+    buttonContainerDefault: {
+        marginTop: 32,
         width: "100%",
-    },
-    innerContainerDisabled: {
-        paddingHorizontal: 40,
-        paddingTop: 124,
-        paddingBottom: 174,
-        backgroundColor: "#404040a0",
-    },
-    imageDisabled: {
-
-    },
-    titleDisabled: {
-        ...commonStyles.header2,
-        color: "#FFFFFF",
-    },
-    subtitleDisabled: {
-        ...commonStyles.subtitle,
-        color: "#FFFFFF",
+        alignItems: "center",
     },
 });

@@ -5,7 +5,6 @@ import { defaultStyles } from "./styles";
 
 export interface AppifyHeroStateStyles {
     default?: object | null;
-    disabled?: object | null;
 };
 
 export interface AppifyHeroProperties {
@@ -23,45 +22,45 @@ export interface AppifyHeroProperties {
     imageStyles?: AppifyHeroStateStyles | null;
     titleStyles?: AppifyHeroStateStyles | null;
     subtitleStyles?: AppifyHeroStateStyles | null;
+    buttonContainerStyles?: AppifyHeroStateStyles | null;
 };
 
-const STATE_DEFAULT = 0,
-      STATE_DISABLED = 1;
+const STATE_DEFAULT = 0;
 
-const emptyStyles = {default:null, disabled:null};
+const emptyStyles = {default:null};
 
 export const AppifyHero: FunctionComponent<AppifyHeroProperties> = (props) => {
-    var state = props.disabled ? STATE_DISABLED : STATE_DEFAULT;
+    var state = STATE_DEFAULT;
 
     var propsContainerStyles = props.containerStyles || emptyStyles;
     var propsInnerContainerStyles = props.innerContainerStyles || emptyStyles;
     var propsImageStyles = props.imageStyles || emptyStyles;
     var propsTitleStyles = props.titleStyles || emptyStyles;
     var propsSubtitleStyles = props.subtitleStyles || emptyStyles;
-    
+    var propsButtonContainerStyles = props.buttonContainerStyles || emptyStyles;
+
     var containerStyles = (
-        state === STATE_DISABLED ? {...defaultStyles.containerDisabled, ...propsContainerStyles.disabled}
-        : {...defaultStyles.containerDefault, ...propsContainerStyles.default}
+        {...defaultStyles.containerDefault, ...propsContainerStyles.default}
     );
 
     var innerContainerStyles = (
-        state === STATE_DISABLED ? {...defaultStyles.innerContainerDisabled, ...propsInnerContainerStyles.disabled}
-        : {...defaultStyles.innerContainerDefault, ...propsInnerContainerStyles.default}
+        {...defaultStyles.innerContainerDefault, ...propsInnerContainerStyles.default}
     );
 
     var imageStyles = (
-        state === STATE_DISABLED ? {...defaultStyles.imageDisabled, ...propsImageStyles.disabled}
-        : {...defaultStyles.imageDefault, ...propsImageStyles.default}
+        {...defaultStyles.imageDefault, ...propsImageStyles.default}
     );
 
     var titleStyles = (
-        state === STATE_DISABLED ? {...defaultStyles.titleDisabled, ...propsTitleStyles.disabled}
-        : {...defaultStyles.titleDefault, ...propsTitleStyles.default}
+        {...defaultStyles.titleDefault, ...propsTitleStyles.default}
     );
 
     var subtitleStyles = (
-        state === STATE_DISABLED ? {...defaultStyles.subtitleDisabled, ...propsSubtitleStyles.disabled}
-        : {...defaultStyles.subtitleDefault, ...propsSubtitleStyles.default}
+        {...defaultStyles.subtitleDefault, ...propsSubtitleStyles.default}
+    );
+
+    var buttonContainerStyles = (
+        {...defaultStyles.buttonContainerDefault, ...propsButtonContainerStyles.default}
     );
 
     return (
@@ -78,13 +77,15 @@ export const AppifyHero: FunctionComponent<AppifyHeroProperties> = (props) => {
                         {props.subtitleLabel}
                     </Text>
                     : null}
-                <AppifyButton
-                    onPress={props.onPress}
-                    buttonStyles={props.buttonButtonStyles}
-                    textStyles={props.buttonTextStyles}
-                    label={props.buttonLabel}
-                    disabled={props.disabled}
-                />
+                <View style={buttonContainerStyles}>
+                    <AppifyButton
+                        onPress={props.onPress}
+                        buttonStyles={props.buttonButtonStyles}
+                        textStyles={props.buttonTextStyles}
+                        label={props.buttonLabel}
+                        disabled={props.disabled}
+                    />
+                </View>
             </View>
         </ImageBackground>
     );

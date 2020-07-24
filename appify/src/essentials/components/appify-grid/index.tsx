@@ -45,15 +45,15 @@ export const AppifyGrid: FunctionComponent<AppifyGridProperties> = (props) => {
     );
 
     var titleContainerStyles = (
-        {...defaultStyles.titleContainerDefault, ...propsTitleContainerStyles}
+        {...defaultStyles.titleContainerDefault, ...propsTitleContainerStyles.default}
     );
 
     var cellContainerStyles = (
-        {...defaultStyles.cellContainerDefault, ...propsCellContainerStyles}
+        {...defaultStyles.cellContainerDefault, ...propsCellContainerStyles.default}
     );
 
     var cellRowStyles = (
-        {...defaultStyles.cellRowDefault, ...propsCellRowStyles}
+        {...defaultStyles.cellRowDefault, ...propsCellRowStyles.default}
     );
 
     var titleStyles = (
