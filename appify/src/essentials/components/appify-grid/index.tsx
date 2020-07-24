@@ -1,29 +1,29 @@
 import React, { FunctionComponent, useState } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableWithoutFeedback } from "react-native";
 import { defaultStyles } from "./styles";
+import { AppifyGridCell, AppifyGridCellData, AppifyGridCellStateStyles } from "./gridcell";
 
 export interface AppifyGridStateStyles {
     default?: object | null;
 };
 
-export interface AppifyGridCell {
-    image: string;
-    title: string;
-    description: string;
-};
-
 export interface AppifyGridProperties {
     titleLabel: string;
     subtitleLabel?: string;
-    gridCells: AppifyGridCell[];
+    gridCells: AppifyGridCellData[];
+    disabled?: boolean;
 
     containerStyles?: AppifyGridStateStyles | null;
+    titleContainerStyles?: AppifyGridStateStyles | null;
+    cellContainerStyles?: AppifyGridStateStyles | null;
+    cellRowStyles?: AppifyGridStateStyles | null;
     titleStyles?: AppifyGridStateStyles | null;
     subtitleStyles?: AppifyGridStateStyles | null;
-    cellStyles?: AppifyGridStateStyles | null;
-    cellImageStyles?: AppifyGridStateStyles | null;
-    cellTitleStyles?: AppifyGridStateStyles | null;
-    cellDescriptionStyles?: AppifyGridStateStyles | null;
+
+    cellStyles?: AppifyGridCellStateStyles | null;
+    cellImageStyles?: AppifyGridCellStateStyles | null;
+    cellTitleStyles?: AppifyGridCellStateStyles | null;
+    cellDescriptionStyles?: AppifyGridCellStateStyles | null;
 };
 
 const STATE_DEFAULT = 0;
@@ -34,15 +34,26 @@ export const AppifyGrid: FunctionComponent<AppifyGridProperties> = (props) => {
     var state = STATE_DEFAULT;
 
     var propsContainerStyles = props.containerStyles || emptyStyles;
+    var propsTitleContainerStyles = props.titleContainerStyles || emptyStyles;
+    var propsCellContainerStyles = props.cellContainerStyles || emptyStyles;
+    var propsCellRowStyles = props.cellRowStyles || emptyStyles;
     var propsTitleStyles = props.titleStyles || emptyStyles;
     var propsSubtitleStyles = props.subtitleStyles || emptyStyles;
-    var propsCellStyles = props.cellStyles || emptyStyles;
-    var propsCellImageStyles = props.cellImageStyles || emptyStyles;
-    var propsCellTitleStyles = props.cellTitleStyles || emptyStyles;
-    var propsCellDescriptionStyles = props.cellDescriptionStyles || emptyStyles;
 
     var containerStyles = (
         {...defaultStyles.containerDefault, ...propsContainerStyles.default}
+    );
+
+    var titleContainerStyles = (
+        {...defaultStyles.titleContainerDefault, ...propsTitleContainerStyles}
+    );
+
+    var cellContainerStyles = (
+        {...defaultStyles.cellContainerDefault, ...propsCellContainerStyles}
+    );
+
+    var cellRowStyles = (
+        {...defaultStyles.cellRowDefault, ...propsCellRowStyles}
     );
 
     var titleStyles = (
@@ -53,25 +64,18 @@ export const AppifyGrid: FunctionComponent<AppifyGridProperties> = (props) => {
         {...defaultStyles.subtitleDefault, ...propsSubtitleStyles.default}
     );
 
-    var cellStyles = (
-        {...defaultStyles.cellDefault, ...propsCellStyles.default}
+    // join cells into row-pairs
+    var gridRows = props.gridCells.reduce<AppifyGridCellData[][]>(
+        (arr,cell,i) => {
+            if(i%2 === 0)
+                arr.push([cell]);
+            else
+                arr[arr.length-1].push(cell);
+            return arr;
+        },
+        []
     );
 
-    var cellImageStyles = (
-        {...defaultStyles.cellImageDefault, ...propsCellImageStyles.default}
-    );
-
-    var cellTitleStyles = (
-        {...defaultStyles.cellTitleDefault, ...propsCellTitleStyles.default}
-    );
-
-    var cellDescriptionStyles = (
-        {...defaultStyles.cellDescriptionDefault, ...propsCellDescriptionStyles.default}
-    );
-
-    var titleContainerStyles = defaultStyles.titleContainer;
-    var cellContainerStyles = defaultStyles.cellContainer;
-    
     return (
         <View style={containerStyles}>
             <View style={titleContainerStyles}>
@@ -85,17 +89,18 @@ export const AppifyGrid: FunctionComponent<AppifyGridProperties> = (props) => {
                     : null}
             </View>
             <View style={cellContainerStyles}>
-                {props.gridCells.map(({image,title,description}) => (
-                    <View style={cellStyles}>
-                        <Image source={{uri:image}}/>
-                        <Text style={cellTitleStyles}>
-                            {title}
-                        </Text>
-                        (description ?
-                            <Text style={cellDescriptionStyles}>
-                                {description}
-                            </Text>
-                            : null)
+                {gridRows.map((row,i) => (
+                    <View key={i} style={cellRowStyles}>
+                        {row.map((cellProps,j) => (
+                            <AppifyGridCell {...cellProps}
+                                key={j}
+                                disabled={props.disabled || cellProps.disabled}
+                                cellStyles={props.cellStyles}
+                                cellImageStyles={props.cellImageStyles}
+                                cellTitleStyles={props.cellTitleStyles}
+                                cellDescriptionStyles={props.cellDescriptionStyles}
+                            />
+                        ))}
                     </View>
                 ))}
             </View>

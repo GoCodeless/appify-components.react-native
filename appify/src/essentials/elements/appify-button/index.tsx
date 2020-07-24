@@ -46,19 +46,11 @@ export const AppifyButton: FunctionComponent<AppifyButtonProperties> = (props) =
         : {...defaultStyles.textDefault, ...propsTextStyles.default}
     );
 
-    return props.disabled ? (
-        <Pressable>
-            <View style={buttonStyles}>
-                <Text style={textStyles}>
-                    {props.label}
-                </Text>
-            </View>
-        </Pressable>
-    ) : (
-        <Pressable onPress={props.onPress}
-                   onPressIn={() => setState(STATE_PRESSED)}
-                   onPressOut={() => setState(STATE_DEFAULT)}
-                   onLongPress={() => setState(STATE_CANCELED)}
+    return (
+        <Pressable onPress={() => props.disabled || props.onPress && props.onPress()}
+                   onPressIn={() => props.disabled || setState(STATE_PRESSED)}
+                   onPressOut={() => props.disabled || setState(STATE_DEFAULT)}
+                   onLongPress={() => props.disabled || setState(STATE_CANCELED)}
             >
             <View style={buttonStyles}>
                 <Text style={textStyles}>
