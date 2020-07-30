@@ -94,3 +94,25 @@ export const captionStrong: StyleMap = {
     lineHeight: 16,
     color: Colors.black,
 };
+export const clearVerticalSpace: StyleMap = {
+    paddingVertical: undefined,
+    paddingTop: undefined,
+    paddingBottom: undefined,
+    marginVertical: undefined,
+    marginTop: undefined,
+    marginBottom: undefined,
+};
+export const clearHorizontalSpace: StyleMap = {
+    paddingHorizontal: undefined,
+    paddingLeft: undefined,
+    paddingRight: undefined,
+    marginHorizontal: undefined,
+    marginLeft: undefined,
+    marginRight: undefined,
+};
+export const clearSpace: StyleMap = {
+    ...clearVerticalSpace,
+    ...clearHorizontalSpace,
+    padding: 0,
+    margin: 0,
+};
