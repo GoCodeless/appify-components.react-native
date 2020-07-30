@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, ReactNode } from "react";
 import { View, Text, ImageBackground, ImageSourcePropType } from "react-native";
 import { AppifyButton, AppifyButtonStateStyles } from "../../elements/appify-button";
 import { defaultStyles } from "./styles";
@@ -10,9 +10,9 @@ export interface AppifyHeroStateStyles {
 export interface AppifyHeroProperties {
     onPress?: () => void;
     disabled?: boolean;
-    titleLabel?: string;
-    subtitleLabel?: string;
-    buttonLabel?: string;
+    titleLabel?: string | ReactNode;
+    subtitleLabel?: string | ReactNode;
+    buttonLabel?: string | ReactNode;
     image: ImageSourcePropType;
 
     buttonTextStyles?: AppifyButtonStateStyles | null;
@@ -69,17 +69,17 @@ export const AppifyHero: FunctionComponent<AppifyHeroProperties> = (props) => {
                 imageStyle={imageStyles}
                 style={containerStyles}>
             <View style={innerContainerStyles}>
-                {typeof props.titleLabel === 'string' ?
+                {props.titleLabel != undefined ?
                     <Text style={titleStyles}>
                         {props.titleLabel}
                     </Text>
                     : null}
-                {typeof props.subtitleLabel === 'string' ?
+                {props.subtitleLabel != undefined ?
                     <Text style={subtitleStyles}>
                         {props.subtitleLabel}
                     </Text>
                     : null}
-                {typeof props.buttonLabel === 'string' ?
+                {props.buttonLabel != undefined ?
                     <View style={buttonContainerStyles}>
                         <AppifyButton
                             onPress={props.onPress}

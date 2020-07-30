@@ -1,7 +1,7 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, ReactNode } from "react";
 import { View, Text, Image, TouchableWithoutFeedback, ImageSourcePropType } from "react-native";
 import { AppifyButton, AppifyButtonStateStyles } from "../../elements/appify-button";
-import getSize from "../../utils/imagesize";
+import { ImageBox } from "../../utils/imagebox";
 import { defaultStyles } from "./styles";
 
 export interface AppifyGridCellStateStyles {
@@ -14,15 +14,16 @@ export interface AppifyGridCellStateStyles {
 export interface AppifyGridCellData {
     onPress?: () => void;
     image?: ImageSourcePropType;
-    title?: string;
-    description?: string;
-    buttonLabel?: string;
+    title?: string | ReactNode;
+    description?: string | ReactNode;
+    buttonLabel?: string | ReactNode;
     disabled?: boolean;
 }
 
 export interface AppifyGridCellProperties extends AppifyGridCellData {
     cellStyles?: AppifyGridCellStateStyles | null;
     cellImageStyles?: AppifyGridCellStateStyles | null;
+    cellImageBoxStyles?: AppifyGridCellStateStyles | null;
     cellTitleStyles?: AppifyGridCellStateStyles | null;
     cellDescriptionStyles?: AppifyGridCellStateStyles | null;
     cellButtonContainerStyles?: AppifyGridCellStateStyles | null;
@@ -39,16 +40,10 @@ const emptyStyles = {default:null, pressed:null, canceled:null, disabled:null};
       
 export const AppifyGridCell: FunctionComponent<AppifyGridCellProperties> = (props) => {
     var [state, setState] = useState(props.disabled ? STATE_DISABLED : STATE_DEFAULT);
-    var [aspect, setAspect] = useState(1);
-
-    if(props.image) {
-        getSize(props.image).then((sz)=>{
-            setAspect(sz.width / sz.height);
-        });
-    }
 
     var propsCellStyles = props.cellStyles || emptyStyles;
     var propsCellImageStyles = props.cellImageStyles || emptyStyles;
+    var propsCellImageBoxStyles = props.cellImageBoxStyles || emptyStyles;
     var propsCellTitleStyles = props.cellTitleStyles || emptyStyles;
     var propsCellDescriptionStyles = props.cellDescriptionStyles || emptyStyles;
     var propsCellButtonContainerStyles = props.cellButtonContainerStyles || emptyStyles;
@@ -67,9 +62,12 @@ export const AppifyGridCell: FunctionComponent<AppifyGridCellProperties> = (prop
         : {...defaultStyles.cellImageDefault, ...propsCellImageStyles.default}
     );
 
-    if(cellImageStyles.aspectRatio === -1) {
-        cellImageStyles.aspectRatio = aspect;
-    }
+    var cellImageBoxStyles = (
+        state === STATE_PRESSED ? {...defaultStyles.cellImageBoxPressed, ...propsCellImageBoxStyles.default, ...propsCellImageBoxStyles.pressed}
+        : state === STATE_CANCELED ? {...defaultStyles.cellImageBoxCanceled, ...propsCellImageBoxStyles.default, ...propsCellImageBoxStyles.canceled}
+        : state === STATE_DISABLED ? {...defaultStyles.cellImageBoxDisabled, ...propsCellImageBoxStyles.default, ...propsCellImageBoxStyles.disabled}
+        : {...defaultStyles.cellImageBoxDefault, ...propsCellImageBoxStyles.default}
+    );
 
     var cellTitleStyles = (
         state === STATE_PRESSED ? {...defaultStyles.cellTitlePressed, ...propsCellTitleStyles.default, ...propsCellTitleStyles.pressed}
@@ -100,20 +98,20 @@ export const AppifyGridCell: FunctionComponent<AppifyGridCellProperties> = (prop
                 onLongPress={() => props.disabled || setState(STATE_CANCELED)}
                 >
             <View style={cellStyles}>
-                {props.image ?
-                    <Image source={props.image} style={cellImageStyles}/>
+                {props.image != undefined ?
+                    <ImageBox source={props.image} imageStyle={cellImageStyles} boxStyle={cellImageBoxStyles}/>
                     : null}
-                {typeof props.title === 'string' ? 
+                {props.title != undefined ? 
                     <Text style={cellTitleStyles}>
                         {props.title}
                     </Text>
                     : null}
-                {typeof props.description === 'string' ?
+                {props.description != undefined ?
                     <Text style={cellDescriptionStyles}>
                         {props.description}
                     </Text>
                     : null}
-                {typeof props.buttonLabel === 'string' ?
+                {props.buttonLabel != undefined ?
                     <View style={buttonContainerStyles}>
                         <AppifyButton
                             label={props.buttonLabel}

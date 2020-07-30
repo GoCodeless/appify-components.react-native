@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, ReactNode, useState } from "react";
 import { View, Text, TextInput } from "react-native";
 import { defaultStyles } from "./styles";
 
@@ -19,7 +19,7 @@ export interface AppifyTextInputProperties {
     disabled?: boolean;
     value?: string;
     placeholder?: string;
-    label: string;
+    label?: string | ReactNode;
 
     inputStyles?: AppifyTextInputStateStyles | null;
     labelStyles?: AppifyTextInputLabelStateStyles | null;
@@ -56,7 +56,9 @@ export const AppifyTextInput: FunctionComponent<AppifyTextInputProperties> = (pr
 
     return (
         <View>
-            <Text style={labelStyles}>{props.label}</Text>
+            {props.label != undefined ?
+                <Text style={labelStyles}>{props.label}</Text>
+                : null}
             {props.disabled ? (
                 <TextInput
                     editable={false}

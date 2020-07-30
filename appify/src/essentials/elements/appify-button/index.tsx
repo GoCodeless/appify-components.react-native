@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, ReactNode } from "react";
 import { View, Text } from "react-native";
 import { Pressable } from "../../utils/pressable";
 import { defaultStyles } from "./styles";
@@ -13,7 +13,7 @@ export interface AppifyButtonStateStyles {
 export interface AppifyButtonProperties {
     onPress?: () => void;
     disabled?: boolean;
-    label: string;
+    label: string | ReactNode;
 
     textStyles?: AppifyButtonStateStyles | null;
     buttonStyles?: AppifyButtonStateStyles | null;

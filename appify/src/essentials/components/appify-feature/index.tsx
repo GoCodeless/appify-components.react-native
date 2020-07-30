@@ -2,8 +2,8 @@ import React, { FunctionComponent, ReactNode, useState } from "react";
 import { View, Text, Image, ImageBackground, ImageSourcePropType } from "react-native";
 import { ConditionalWrapper } from "../../utils/conditionalwrapper";
 import { AppifyButton, AppifyButtonStateStyles } from "../../elements/appify-button";
-import getSize from "../../utils/imagesize";
 import { defaultStyles } from "./styles";
+import { ImageBox } from "../../utils/imagebox";
 
 export interface AppifyFeatureStateStyles {
     default?: object | null;
@@ -11,10 +11,10 @@ export interface AppifyFeatureStateStyles {
 
 export interface AppifyFeatureProperties {
     onPress?: () => void;
-    superTitleLabel?: string;
-    titleLabel?: string;
-    description?: string;
-    buttonLabel?: string;
+    superTitleLabel?: string | ReactNode;
+    titleLabel?: string | ReactNode;
+    description?: string | ReactNode;
+    buttonLabel?: string | ReactNode;
     image: ImageSourcePropType;
     backgroundImage?: ImageSourcePropType;
     disabled?: boolean;
@@ -23,6 +23,7 @@ export interface AppifyFeatureProperties {
     buttonTextStyles?: AppifyButtonStateStyles | null;
     containerStyles?: AppifyFeatureStateStyles | null;
     imageStyles?: AppifyFeatureStateStyles | null;
+    imageBoxStyles?: AppifyFeatureStateStyles | null;
     backgroundImageStyles?: AppifyFeatureStateStyles | null;
     superTitleStyles?: AppifyFeatureStateStyles | null;
     titleStyles?: AppifyFeatureStateStyles | null;
@@ -36,16 +37,10 @@ const emptyStyles = {default:null};
 
 export const AppifyFeature: FunctionComponent<AppifyFeatureProperties> = (props) => {
     var state = STATE_DEFAULT;
-    var [aspect, setAspect] = useState(1);
-
-    if(props.image) {
-        getSize(props.image).then((sz)=>{
-            setAspect(sz.width / sz.height);
-        });
-    }
 
     var propsContainerStyles = props.containerStyles || emptyStyles;
     var propsImageStyles = props.imageStyles || emptyStyles;
+    var propsImageBoxStyles = props.imageBoxStyles || emptyStyles;
     var propsBackgroundImageStyles = props.backgroundImageStyles || emptyStyles;
     var propsSuperTitleStyles = props.superTitleStyles || emptyStyles;
     var propsTitleStyles = props.titleStyles || emptyStyles;
@@ -60,9 +55,9 @@ export const AppifyFeature: FunctionComponent<AppifyFeatureProperties> = (props)
         {...defaultStyles.imageDefault, ...propsImageStyles.default}
     );
 
-    if(imageStyles.aspectRatio === -1) {
-        imageStyles.aspectRatio = aspect;
-    }
+    var imageBoxStyles = (
+        {...defaultStyles.imageBoxDefault, ...propsImageBoxStyles.default}
+    );
 
     var backgroundImageStyles = (
         {...defaultStyles.backgroundImageDefault, ...propsBackgroundImageStyles.default}
@@ -101,23 +96,23 @@ export const AppifyFeature: FunctionComponent<AppifyFeatureProperties> = (props)
     return (
         <ConditionalWrapper condition={!!props.backgroundImage} truthy={truthy} falsy={falsy}>
             <>
-                <Image source={props.image} style={imageStyles}/>
-                {typeof props.superTitleLabel === 'string' ? 
+                <ImageBox source={props.image} imageStyle={imageStyles} boxStyle={imageBoxStyles}/>
+                {props.superTitleLabel != undefined ? 
                     <Text style={superTitleStyles}>
                         {props.superTitleLabel}
                     </Text>
                     : null}
-                {typeof props.titleLabel === 'string' ?
+                {props.titleLabel != undefined ?
                     <Text style={titleStyles}>
                         {props.titleLabel}
                     </Text>
                     : null}
-                {typeof props.description === 'string' ?
+                {props.description != undefined ?
                     <Text style={descriptionStyles}>
                         {props.description}
                     </Text>
                     : null}
-                {typeof props.buttonLabel === 'string' ?
+                {props.buttonLabel != undefined ?
                     <View style={buttonContainerStyles}>
                         <AppifyButton
                             onPress={props.onPress}

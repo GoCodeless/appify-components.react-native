@@ -39,10 +39,9 @@ export const defaultStyles = StyleSheet.create({
         flex: 1,
     },
     cellImageDefault: {
-        width: "100%",
-        height: undefined,
-        aspectRatio: -1,
         resizeMode: "cover",
+    },
+    cellImageBoxDefault: {
         marginBottom: 8,
     },
     cellTitleDefault: {
@@ -68,6 +67,8 @@ export const defaultStyles = StyleSheet.create({
         height: undefined,
         aspectRatio: -1,
         resizeMode: "cover",
+    },
+    cellImageBoxPressed: {
         marginBottom: 8,
     },
     cellTitlePressed: {
@@ -93,6 +94,8 @@ export const defaultStyles = StyleSheet.create({
         height: undefined,
         aspectRatio: -1,
         resizeMode: "cover",
+    },
+    cellImageBoxCanceled: {
         marginBottom: 8,
     },
     cellTitleCanceled: {
@@ -118,6 +121,8 @@ export const defaultStyles = StyleSheet.create({
         height: undefined,
         aspectRatio: -1,
         resizeMode: "cover",
+    },
+    cellImageBoxDisabled: {
         marginBottom: 8,
     },
     cellTitleDisabled: {

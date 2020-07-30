@@ -7,9 +7,9 @@ export const defaultStyles = StyleSheet.create({
         padding: 32,
     },
     imageDefault: {
-        width: "100%",
-        height: undefined,
-        aspectRatio: -1,
+
+    },
+    imageBoxDefault: {
         marginBottom: 32,
     },
     backgroundImageDefault: {

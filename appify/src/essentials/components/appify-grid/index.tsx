@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, ReactNode } from "react";
 import { View, Text } from "react-native";
 import { defaultStyles } from "./styles";
 import { AppifyGridCell, AppifyGridCellData, AppifyGridCellStateStyles } from "./gridcell";
@@ -9,8 +9,8 @@ export interface AppifyGridStateStyles {
 };
 
 export interface AppifyGridProperties {
-    titleLabel?: string;
-    subtitleLabel?: string;
+    titleLabel?: string | ReactNode;
+    subtitleLabel?: string | ReactNode;
     gridCells: AppifyGridCellData[];
     cellsPerRow?: number;
     disabled?: boolean;
@@ -24,6 +24,7 @@ export interface AppifyGridProperties {
 
     cellStyles?: AppifyGridCellStateStyles | null;
     cellImageStyles?: AppifyGridCellStateStyles | null;
+    cellImageBoxStyles?: AppifyGridCellStateStyles | null;
     cellTitleStyles?: AppifyGridCellStateStyles | null;
     cellDescriptionStyles?: AppifyGridCellStateStyles | null;
     cellButtonContainerStyles?: AppifyGridCellStateStyles | null;
@@ -93,12 +94,12 @@ export const AppifyGrid: FunctionComponent<AppifyGridProperties> = (props) => {
     return (
         <View style={containerStyles}>
             <View style={titleContainerStyles}>
-                {typeof props.titleLabel === 'string' ?
+                {props.titleLabel != undefined ?
                     <Text style={titleStyles}>
                         {props.titleLabel}
                     </Text>
                     : null}
-                {typeof props.subtitleLabel === 'string' ?
+                {props.subtitleLabel != undefined ?
                     <Text style={subtitleStyles}>
                         {props.subtitleLabel}
                     </Text>
@@ -113,6 +114,7 @@ export const AppifyGrid: FunctionComponent<AppifyGridProperties> = (props) => {
                                 disabled={props.disabled || cellProps.disabled}
                                 cellStyles={props.cellStyles}
                                 cellImageStyles={props.cellImageStyles}
+                                cellImageBoxStyles={props.cellImageBoxStyles}
                                 cellTitleStyles={props.cellTitleStyles}
                                 cellDescriptionStyles={props.cellDescriptionStyles}
                                 cellButtonContainerStyles={props.cellButtonContainerStyles}
