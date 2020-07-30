@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { Colors } from "../../common/colors";
 
 export const defaultStyles = StyleSheet.create({
     // DEFAULT
@@ -12,13 +13,13 @@ export const defaultStyles = StyleSheet.create({
         textAlignVertical: "center",
         flex: 1,
         textTransform: "uppercase",
-        color: "#050A16",
+        color: Colors.white,
     },
     buttonDefault: {
         borderRadius: 2,
         width: 120,
         height: 40,
-        backgroundColor: "#FAD549",
+        backgroundColor: Colors.primary,
     },
 
     // PRESSED
@@ -32,13 +33,13 @@ export const defaultStyles = StyleSheet.create({
         textAlignVertical: "center",
         flex: 1,
         textTransform: "uppercase",
-        color: "#050A16",
+        color: Colors.white,
     },
     buttonPressed: {
         borderRadius: 2,
         width: 120,
         height: 40,
-        backgroundColor: "#FAD549",
+        backgroundColor: Colors.primary,
     },
 
     // CANCELED
@@ -52,13 +53,13 @@ export const defaultStyles = StyleSheet.create({
         textAlignVertical: "center",
         flex: 1,
         textTransform: "uppercase",
-        color: "#353A46",
+        color: Colors.white,
     },
     buttonCanceled: {
         borderRadius: 2,
         width: 120,
         height: 40,
-        backgroundColor: "#FEE56C",
+        backgroundColor: Colors.primary,
     },
 
     // DISABLED
@@ -72,12 +73,12 @@ export const defaultStyles = StyleSheet.create({
         textAlignVertical: "center",
         flex: 1,
         textTransform: "uppercase",
-        color: "#050A16",
+        color: Colors.white,
     },
     buttonDisabled: {
         borderRadius: 2,
         width: 120,
         height: 40,
-        backgroundColor: "#808080",
+        backgroundColor: Colors.primary,
     },
 });

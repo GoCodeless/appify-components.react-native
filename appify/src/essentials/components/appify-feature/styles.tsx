@@ -8,8 +8,16 @@ export const defaultStyles = StyleSheet.create({
     },
     imageDefault: {
         width: "100%",
-        aspectRatio: 1,
+        height: undefined,
+        aspectRatio: -1,
         marginBottom: 32,
+    },
+    backgroundImageDefault: {
+
+    },
+    superTitleStyles: {
+        ...commonStyles.captionStrong,
+        marginBottom: 8,
     },
     titleDefault: {
         ...commonStyles.header4,

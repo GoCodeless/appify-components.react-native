@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import { View, Text, ImageBackground } from "react-native";
+import { View, Text, ImageBackground, ImageSourcePropType } from "react-native";
 import { AppifyButton, AppifyButtonStateStyles } from "../../elements/appify-button";
 import { defaultStyles } from "./styles";
 
@@ -10,10 +10,10 @@ export interface AppifyCTAStateStyles {
 export interface AppifyCTAProperties {
     onPress?: () => void;
     disabled?: boolean;
-    titleLabel: string;
+    titleLabel?: string;
     subtitleLabel?: string;
-    buttonLabel: string;
-    image: string;
+    buttonLabel?: string;
+    image: ImageSourcePropType;
 
     buttonTextStyles?: AppifyButtonStateStyles | null;
     buttonButtonStyles?: AppifyButtonStateStyles | null;
@@ -65,27 +65,31 @@ export const AppifyCTA: FunctionComponent<AppifyCTAProperties> = (props) => {
 
     return (
         <ImageBackground
-                source={{uri:props.image}}
+                source={props.image}
                 imageStyle={imageStyles}
                 style={containerStyles}>
             <View style={innerContainerStyles}>
-                <Text style={titleStyles}>
-                    {props.titleLabel}
-                </Text>
-                {props.subtitleLabel ?
+                {typeof props.titleLabel === 'string' ?
+                    <Text style={titleStyles}>
+                        {props.titleLabel}
+                    </Text>
+                    : null}
+                {typeof props.subtitleLabel === 'string' ?
                     <Text style={subtitleStyles}>
                         {props.subtitleLabel}
                     </Text>
                     : null}
-                <View style={buttonContainerStyles}>
-                    <AppifyButton
-                        onPress={props.onPress}
-                        buttonStyles={props.buttonButtonStyles}
-                        textStyles={props.buttonTextStyles}
-                        label={props.buttonLabel}
-                        disabled={props.disabled}
-                    />
-                </View>
+                {typeof props.buttonLabel === 'string' ?
+                    <View style={buttonContainerStyles}>
+                        <AppifyButton
+                            onPress={props.onPress}
+                            buttonStyles={props.buttonButtonStyles}
+                            textStyles={props.buttonTextStyles}
+                            label={props.buttonLabel}
+                            disabled={props.disabled}
+                        />
+                    </View>
+                    : null}
             </View>
         </ImageBackground>
     );

@@ -12,12 +12,12 @@ export const defaultStyles = StyleSheet.create({
         padding: 32,
         paddingBottom: 43,
     },
-    cellContainerDefault: {
+    gridContainerDefault: {
         width: "100%",
         paddingHorizontal: 32,
         paddingBottom: 3,
     },
-    cellRowDefault: {
+    gridRowDefault: {
         marginLeft: -16,
         justifyContent: "space-evenly",
         flexDirection: "row",
@@ -40,7 +40,9 @@ export const defaultStyles = StyleSheet.create({
     },
     cellImageDefault: {
         width: "100%",
-        aspectRatio: 1,
+        height: undefined,
+        aspectRatio: -1,
+        resizeMode: "cover",
         marginBottom: 8,
     },
     cellTitleDefault: {
@@ -50,16 +52,22 @@ export const defaultStyles = StyleSheet.create({
         ...commonStyles.caption,
         marginTop: 8,
     },
+    cellButtonContainerDefault: {
+        marginTop: 8,
+    },
 
     // PRESSED
     cellPressed: {
         marginBottom: 32,
         marginLeft: 16,
         flex: 1,
+        overflow: "hidden",
     },
     cellImagePressed: {
         width: "100%",
-        aspectRatio: 1,
+        height: undefined,
+        aspectRatio: -1,
+        resizeMode: "cover",
         marginBottom: 8,
     },
     cellTitlePressed: {
@@ -69,16 +77,22 @@ export const defaultStyles = StyleSheet.create({
         ...commonStyles.caption,
         marginTop: 8,
     },
+    cellButtonContainerPressed: {
+        marginTop: 8,
+    },
 
     // CANCELED
     cellCanceled: {
         marginBottom: 32,
         marginLeft: 16,
         flex: 1,
+        overflow: "hidden",
     },
     cellImageCanceled: {
         width: "100%",
-        aspectRatio: 1,
+        height: undefined,
+        aspectRatio: -1,
+        resizeMode: "cover",
         marginBottom: 8,
     },
     cellTitleCanceled: {
@@ -88,16 +102,22 @@ export const defaultStyles = StyleSheet.create({
         ...commonStyles.caption,
         marginTop: 8,
     },
+    cellButtonContainerCanceled: {
+        marginTop: 8,
+    },
 
     // DISABLED
     cellDisabled: {
         marginBottom: 32,
         marginLeft: 16,
         flex: 1,
+        overflow: "hidden",
     },
     cellImageDisabled: {
         width: "100%",
-        aspectRatio: 1,
+        height: undefined,
+        aspectRatio: -1,
+        resizeMode: "cover",
         marginBottom: 8,
     },
     cellTitleDisabled: {
@@ -105,6 +125,9 @@ export const defaultStyles = StyleSheet.create({
     },
     cellDescriptionDisabled: {
         ...commonStyles.caption,
+        marginTop: 8,
+    },
+    cellButtonContainerDisabled: {
         marginTop: 8,
     },
 });
